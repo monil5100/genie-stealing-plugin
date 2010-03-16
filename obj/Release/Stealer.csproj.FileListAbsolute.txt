@@ -1,0 +1,10 @@
+C:\Users\Rico\Desktop\Plugin Sharp Example\bin\Release\Interfaces.dll
+C:\Users\Rico\Desktop\Plugin Sharp Example\bin\Release\System.Data.SQLite.dll
+C:\Users\Rico\Desktop\Plugin Sharp Example\bin\Release\System.Data.SQLite.xml
+C:\Users\Rico\Desktop\Plugin Sharp Example\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Rico\Desktop\Plugin Sharp Example\obj\Release\Stealer.csproj.GenerateResource.Cache
+C:\Users\Rico\Desktop\Plugin Sharp Example\obj\Release\StealingPlugin.Steal_a_Feel.resources
+C:\Users\Rico\Desktop\Plugin Sharp Example\bin\Release\StealingPlugin.dll
+C:\Users\Rico\Desktop\Plugin Sharp Example\bin\Release\StealingPlugin.pdb
+C:\Users\Rico\Desktop\Plugin Sharp Example\obj\Release\StealingPlugin.dll
+C:\Users\Rico\Desktop\Plugin Sharp Example\obj\Release\StealingPlugin.pdb

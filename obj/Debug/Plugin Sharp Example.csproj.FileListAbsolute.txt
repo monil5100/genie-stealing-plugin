@@ -1,0 +1,16 @@
+C:\Users\Rico\Documents\Visual Studio 2008\Plugin Sharp Example\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Rico\Documents\Visual Studio 2008\Plugin Sharp Example\bin\Debug\Plugin Sharp Example.dll
+C:\Users\Rico\Documents\Visual Studio 2008\Plugin Sharp Example\bin\Debug\Plugin Sharp Example.pdb
+C:\Users\Rico\Documents\Visual Studio 2008\Plugin Sharp Example\bin\Debug\Interfaces.dll
+C:\Users\Rico\Documents\Visual Studio 2008\Plugin Sharp Example\obj\Debug\Plugin Sharp Example.dll
+C:\Users\Rico\Documents\Visual Studio 2008\Plugin Sharp Example\obj\Debug\Plugin Sharp Example.pdb
+C:\Users\Rico\Desktop\Plugin Sharp Example\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Rico\Desktop\Plugin Sharp Example\obj\Debug\Plugin Sharp Example.dll
+C:\Users\Rico\Desktop\Plugin Sharp Example\obj\Debug\Plugin Sharp Example.pdb
+C:\Users\Rico\Desktop\Plugin Sharp Example\bin\Debug\Plugin Sharp Example.dll
+C:\Users\Rico\Desktop\Plugin Sharp Example\bin\Debug\Plugin Sharp Example.pdb
+C:\Users\Rico\Desktop\Plugin Sharp Example\bin\Debug\Interfaces.dll
+C:\Users\Rico\Desktop\Plugin Sharp Example\bin\Debug\System.Data.SQLite.dll
+C:\Users\Rico\Desktop\Plugin Sharp Example\bin\Debug\System.Data.SQLite.xml
+C:\Users\Rico\Desktop\Plugin Sharp Example\obj\Debug\Plugin_Sharp_Example.Steal_a_Feel.resources
+C:\Users\Rico\Desktop\Plugin Sharp Example\obj\Debug\Plugin Sharp Example.csproj.GenerateResource.Cache
