@@ -80,16 +80,17 @@ namespace StealingPlugin
             LETH_PERFUME
         };
 
+        private void ResetVars()
+        {
+            foreach (VarList item in Enum.GetValues(typeof(VarList)))
+            {
+                _host.set_Variable(item.ToString().Replace("_", "."), "");
+            }
+        }
+
         void IPlugin.Initialize(IHost Host)
         {
             _host = Host;
-            foreach (VarList item in Enum.GetValues(typeof(VarList)))
-            {
-                if (_host.get_Variable(item.ToString().Replace("_", ".")) == string.Empty)
-                {
-                    _host.set_Variable(item.ToString().Replace("_", "."), "");
-                }
-            }
         }
 
         string IPlugin.Name
@@ -111,49 +112,58 @@ namespace StealingPlugin
 
         string IPlugin.ParseInput(string Text)
         {
-
-            if (Text == "/TestLocation")
+            try
             {
-                this._host.EchoText(this._host.get_Variable("PluginPath"));
-            }
-
-            //throw new NotImplementedException();
-            if (Text == "/LoadStealing")
-            {               
-                string sStealSkill = this._host.get_Variable("Stealing.Ranks");
-                int iStealSkill = int.Parse(sStealSkill.Substring(0, sStealSkill.IndexOf(".")));
-                SQLiteConnection con = new SQLiteConnection("Data Source= " + Application.StartupPath + @"\Plugins\StealingDB.sdb");
-                SQLiteCommand cmd = new SQLiteCommand(con);
-                cmd.CommandText = string.Format("Select * from ItemList where MinRank < {0} and {0} < Trivial order by Province, City, StoreName, MinRank", iStealSkill.ToString());
-                con.Open();
-
-                
-
-                // Variable for the Stealing Item
-                string sVar = string.Empty;
-                string sVarValue = string.Empty;
-
-                SQLiteDataAdapter sda = new SQLiteDataAdapter(cmd);
-                DataSet ods = new DataSet();
-                sda.Fill(ods);
-
-                if (ods.Tables[0].Rows.Count > 0)
+                if (Text == "/TestLocation")
                 {
-
-                    foreach (DataRow dr in ods.Tables[0].Rows)
-                    {
-                        sVar = dr["City"].ToString() + "." + dr["StoreName"].ToString();
-                        sVarValue = dr["ItemName1"].ToString();
-                        this._host.set_Variable(sVar, sVarValue);
-                        this._host.EchoText(string.Format("Variable: {0} Set to: {1}", sVar, sVarValue));
-                    }
+                    this._host.EchoText(this._host.get_Variable("PluginPath"));
                 }
-                else
-                    this._host.EchoText("No Valid Stealing Items.  Either Edit the SDB or Stop stealing so much.");
 
-                con.Close();
+                //throw new NotImplementedException();
+                if (Text == "/LoadStealing")
+                {
+                    ResetVars();
+                    string sStealSkill = this._host.get_Variable("Stealing.Ranks");
+                    int iStealSkill = int.Parse(sStealSkill.Substring(0, sStealSkill.IndexOf(".")));
+                    SQLiteConnection con = new SQLiteConnection("Data Source= " + Application.StartupPath + @"\Plugins\StealingDB.sdb");
+                    SQLiteCommand cmd = new SQLiteCommand(con);
+                    cmd.CommandText = string.Format("Select * from ItemList where MinRank < {0} and {0} < Trivial order by Province, City, StoreName, MinRank", iStealSkill.ToString());
+                    con.Open();
+
+
+
+                    // Variable for the Stealing Item
+                    string sVar = string.Empty;
+                    string sVarValue = string.Empty;
+
+                    SQLiteDataAdapter sda = new SQLiteDataAdapter(cmd);
+                    DataSet ods = new DataSet();
+                    sda.Fill(ods);
+
+                    if (ods.Tables[0].Rows.Count > 0)
+                    {
+
+                        foreach (DataRow dr in ods.Tables[0].Rows)
+                        {
+                            sVar = dr["City"].ToString() + "." + dr["StoreName"].ToString();
+                            sVarValue = dr["ItemName1"].ToString();
+                            this._host.set_Variable(sVar, sVarValue);
+                            this._host.EchoText(string.Format("Variable: {0} Set to: {1}", sVar, sVarValue));
+                        }
+                    }
+                    else
+                        this._host.EchoText("No Valid Stealing Items.  Either Edit the SDB or Stop stealing so much.");
+
+                    con.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Rico can't program for shit, Error: " + Environment.NewLine + ex.Message);
+            }
+
             return Text;
+
         }
 
         void IPlugin.ParseXML(string XML)
@@ -166,9 +176,9 @@ namespace StealingPlugin
             //throw new NotImplementedException();
             Steal_a_Feel sf = new Steal_a_Feel(ref this._host);
             sf.tbContainer.Text = this._host.get_Variable("StealingContainer");
-            sf.cbMark.Checked = this._host.get_Variable("StealingMark") == String.Empty ? false : true;
-            sf.cbPerceiveHealth.Checked = this._host.get_Variable("StealingPerceiveHealth") == String.Empty ? false : true;
-            sf.cbPerceive.Checked = this._host.get_Variable("StealingPerceive") == String.Empty ? false : true;
+            sf.cbMark.Checked = this._host.get_Variable("StealingMark") == String.Empty || this._host.get_Variable("StealingMark") == "No" ? false : true;
+            sf.cbPerceiveHealth.Checked = this._host.get_Variable("StealingPerceiveHealth") == String.Empty || this._host.get_Variable("StealingPerceiveHealth") == "No" ? false : true;
+            sf.cbPerceive.Checked = this._host.get_Variable("StealingPerceive") == String.Empty || this._host.get_Variable("StealingPerceive") == "No" ? false : true;
 
             if (_parent != null)
                 sf.MdiParent = _parent;
