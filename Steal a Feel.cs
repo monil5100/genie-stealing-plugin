@@ -13,9 +13,18 @@ namespace StealingPlugin
 {
     public partial class Steal_a_Feel : Form
     {
-        public Steal_a_Feel()
+        private GeniePlugin.Interfaces.IHost _host;
+
+
+        public Steal_a_Feel(ref GeniePlugin.Interfaces.IHost host)
         {
             InitializeComponent();
+
+            _host = host;
+            this.tbContainer.Text = this._host.get_Variable("StealingContainer");
+            this.cbMark.Checked = this._host.get_Variable("StealingMark") == String.Empty ? false : true;
+            this.cbPerceiveHealth.Checked = this._host.get_Variable("StealingPerceiveHealth") == String.Empty ? false : true;
+            this.cbPerceive.Checked = this._host.get_Variable("StealingPerceive") == String.Empty ? false : true;
         }
 
         private void btnImportUpdate_Click(object sender, EventArgs e)
@@ -315,6 +324,45 @@ namespace StealingPlugin
                 }
             }
             MessageBox.Show("Import/Update Completed!", "WOOOT!");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (this.tbContainer.Text != string.Empty)
+            {
+                // We have a Container, Setting it
+                this._host.set_Variable("StealingContainer", this.tbContainer.Text);
+            }
+
+            if (this.cbMark.Checked == true)
+            {
+                // Special Move is Checked
+                this._host.set_Variable("StealingMark", "Yes");
+            }
+            else
+            {
+                this._host.set_Variable("StealingMark", "No");
+            }
+
+            if (this.cbPerceiveHealth.Checked == true)
+            {
+                // Special Move is Checked
+                this._host.set_Variable("StealingPerceiveHealth", "Yes");
+            }
+            else
+            {
+                this._host.set_Variable("StealingPerceiveHealth", "No");
+            }
+
+            if (this.cbPerceive.Checked == true)
+            {
+                // Special Move is Checked
+                this._host.set_Variable("StealinPerceive", "Yes");
+            }
+            else
+            {
+                this._host.set_Variable("StealingPerceive", "No");
+            }
         }
     }
 }
