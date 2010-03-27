@@ -21,6 +21,10 @@ namespace StealingPlugin
 
         public enum VarList
         {
+            StealingContainer,
+            StealingMark,
+            StealingPerceiveHealth,
+            StealingPerceive,
             ROSSMAN_SLING,
             ROSSMAN_HERB,
             ROSSMAN_GENERAL,
@@ -108,11 +112,14 @@ namespace StealingPlugin
         string IPlugin.ParseInput(string Text)
         {
 
-            
+            if (Text == "/TestLocation")
+            {
+                this._host.EchoText(this._host.get_Variable("PluginPath"));
+            }
+
             //throw new NotImplementedException();
             if (Text == "/LoadStealing")
-            {
-                MessageBox.Show("OMGWTF");
+            {               
                 string sStealSkill = this._host.get_Variable("Stealing.Ranks");
                 int iStealSkill = int.Parse(sStealSkill.Substring(0, sStealSkill.IndexOf(".")));
                 SQLiteConnection con = new SQLiteConnection("Data Source= " + Application.StartupPath + @"\Plugins\StealingDB.sdb");
@@ -130,13 +137,20 @@ namespace StealingPlugin
                 DataSet ods = new DataSet();
                 sda.Fill(ods);
 
-                foreach (DataRow dr in ods.Tables[0].Rows)
+                if (ods.Tables[0].Rows.Count > 0)
                 {
-                    sVar = dr["City"].ToString() + "." + dr["StoreName"].ToString();
-                    sVarValue = dr["ItemName1"].ToString();
-                    this._host.set_Variable(sVar, sVarValue);
-                    this._host.EchoText(string.Format("Variable: {0} Set to: {1}", sVar, sVarValue));
+
+                    foreach (DataRow dr in ods.Tables[0].Rows)
+                    {
+                        sVar = dr["City"].ToString() + "." + dr["StoreName"].ToString();
+                        sVarValue = dr["ItemName1"].ToString();
+                        this._host.set_Variable(sVar, sVarValue);
+                        this._host.EchoText(string.Format("Variable: {0} Set to: {1}", sVar, sVarValue));
+                    }
                 }
+                else
+                    this._host.EchoText("No Valid Stealing Items.  Either Edit the SDB or Stop stealing so much.");
+
                 con.Close();
             }
             return Text;
@@ -150,7 +164,11 @@ namespace StealingPlugin
         void IPlugin.Show()
         {
             //throw new NotImplementedException();
-            Steal_a_Feel sf = new Steal_a_Feel();
+            Steal_a_Feel sf = new Steal_a_Feel(ref this._host);
+            sf.tbContainer.Text = this._host.get_Variable("StealingContainer");
+            sf.cbMark.Checked = this._host.get_Variable("StealingMark") == String.Empty ? false : true;
+            sf.cbPerceiveHealth.Checked = this._host.get_Variable("StealingPerceiveHealth") == String.Empty ? false : true;
+            sf.cbPerceive.Checked = this._host.get_Variable("StealingPerceive") == String.Empty ? false : true;
 
             if (_parent != null)
                 sf.MdiParent = _parent;
