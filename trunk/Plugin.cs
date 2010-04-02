@@ -18,7 +18,8 @@ namespace StealingPlugin
         #region IPlugin Members
         public IHost _host;                             //Required for plugin
         public System.Windows.Forms.Form _parent;       //Required for plugin
-
+        public string sSDBLocation { get; set; }
+        
         public enum VarList
         {
             StealingContainer,
@@ -90,7 +91,16 @@ namespace StealingPlugin
 
         void IPlugin.Initialize(IHost Host)
         {
+            this.sSDBLocation = "NOT FOUND";
             _host = Host;
+            if (File.Exists(this._host.get_Variable("PluginPath") + "StealingDB.sdb"))
+            {
+                this.sSDBLocation = this._host.get_Variable("PluginPath") + "StealingDB.sdb";                
+            }
+            if (File.Exists(Application.StartupPath + @"\Plugins\StealingDB.sdb"))
+            {
+                this.sSDBLocation = Application.StartupPath + @"\Plugins\StealingDB.sdb";
+            }
         }
 
         string IPlugin.Name
@@ -116,16 +126,19 @@ namespace StealingPlugin
             {
                 if (Text == "/TestLocation")
                 {
-                    this._host.EchoText(this._host.get_Variable("PluginPath"));
+                    this._host.EchoText("SDB Location is: " + sSDBLocation);
                 }
 
                 //throw new NotImplementedException();
                 if (Text == "/LoadStealing")
                 {
+                    if(this.sSDBLocation == "NOT FOUND")
+                        throw new Exception("ERROR: The Stealing.SDB is not in the proper Location." + Environment.NewLine + "The valid Locations are: " + this._host.get_Variable("PluginPath") + "StealingDB.sdb" + " or " + Application.StartupPath + @"\Plugins\StealingDB.sdb");
+
                     ResetVars();
                     string sStealSkill = this._host.get_Variable("Stealing.Ranks");
                     int iStealSkill = int.Parse(sStealSkill.Substring(0, sStealSkill.IndexOf(".")));
-                    SQLiteConnection con = new SQLiteConnection("Data Source= " + Application.StartupPath + @"\Plugins\StealingDB.sdb");
+                    SQLiteConnection con = new SQLiteConnection("Data Source= " + this.sSDBLocation);
                     SQLiteCommand cmd = new SQLiteCommand(con);
                     cmd.CommandText = string.Format("Select * from ItemList where MinRank < {0} and {0} < Trivial order by Province, City, StoreName, MinRank", iStealSkill.ToString());
                     con.Open();
