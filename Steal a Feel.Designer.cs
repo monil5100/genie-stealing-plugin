@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnImportUpdate = new System.Windows.Forms.Button();
             this.tbProvinceCode = new System.Windows.Forms.TextBox();
             this.tbContainer = new System.Windows.Forms.TextBox();
@@ -42,9 +43,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.stealingDBDataSet = new StealingPlugin.StealingDBDataSet();
+            this.stealingDBDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.stealingDBDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.stealingDBDataSetBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // btnImportUpdate
@@ -93,6 +99,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.comboBox1);
             this.tabPage1.Controls.Add(this.cbPerceiveHealth);
             this.tabPage1.Controls.Add(this.cbPerceive);
             this.tabPage1.Controls.Add(this.label4);
@@ -186,6 +193,15 @@
             this.tabPage2.Text = "Import/Export";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // comboBox1
+            // 
+            this.comboBox1.DataSource = this.stealingDBDataSetBindingSource;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(9, 171);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 12;
+            // 
             // Steal_a_Feel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -199,6 +215,8 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.stealingDBDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.stealingDBDataSetBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -219,5 +237,8 @@
         public System.Windows.Forms.CheckBox cbPerceive;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.BindingSource stealingDBDataSetBindingSource;
+        private StealingDBDataSet stealingDBDataSet;
     }
 }

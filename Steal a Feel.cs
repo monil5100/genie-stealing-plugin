@@ -5,6 +5,7 @@ using System.Data.SQLite;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -14,17 +15,45 @@ namespace StealingPlugin
     public partial class Steal_a_Feel : Form
     {
         private GeniePlugin.Interfaces.IHost _host;
+        public SQLiteConnection sSQLConn { get; set; }
+        public DataSet oDS { get; set; }
 
-
-        public Steal_a_Feel(ref GeniePlugin.Interfaces.IHost host)
+        public Steal_a_Feel(ref GeniePlugin.Interfaces.IHost host, string sDBLocation)
         {
             InitializeComponent();
+            try
+            {
+                oDS = new DataSet();
+                sSQLConn = new SQLiteConnection();
 
-            _host = host;
-            this.tbContainer.Text = this._host.get_Variable("StealingContainer");
-            this.cbMark.Checked = this._host.get_Variable("StealingMark") == String.Empty ? false : true;
-            this.cbPerceiveHealth.Checked = this._host.get_Variable("StealingPerceiveHealth") == String.Empty ? false : true;
-            this.cbPerceive.Checked = this._host.get_Variable("StealingPerceive") == String.Empty ? false : true;
+                oDS.Tables.Add("AllData");
+                _host = host;
+
+                _host.EchoText(sDBLocation);
+                this.tbContainer.Text = this._host.get_Variable("StealingContainer");
+                this.cbMark.Checked = this._host.get_Variable("StealingMark") == String.Empty ? false : true;
+                this.cbPerceiveHealth.Checked = this._host.get_Variable("StealingPerceiveHealth") == String.Empty ? false : true;
+                this.cbPerceive.Checked = this._host.get_Variable("StealingPerceive") == String.Empty ? false : true;
+                this.sSQLConn.ConnectionString = "DataSource= " + sDBLocation;
+                SQLiteCommand cmd = new SQLiteCommand(sSQLConn);
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "select * from ItemList";
+                SQLiteDataAdapter sDA = new SQLiteDataAdapter(cmd);
+                sSQLConn.Open();
+                DataSet ds = new DataSet();
+                sDA.Fill(ds.Tables["AllData"]);
+                sSQLConn.Close();
+                sSQLConn.Dispose();
+                cmd.Dispose();
+
+
+
+                this.comboBox1.DataSource = oDS.Tables[0].Rows[1];
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnImportUpdate_Click(object sender, EventArgs e)

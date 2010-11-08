@@ -100,7 +100,7 @@ namespace StealingPlugin
             if (File.Exists(Application.StartupPath + @"\Plugins\StealingDB.sdb"))
             {
                 this.sSDBLocation = Application.StartupPath + @"\Plugins\StealingDB.sdb";
-            }
+            }   
         }
 
         string IPlugin.Name
@@ -187,7 +187,7 @@ namespace StealingPlugin
         void IPlugin.Show()
         {
             //throw new NotImplementedException();
-            Steal_a_Feel sf = new Steal_a_Feel(ref this._host);
+            Steal_a_Feel sf = new Steal_a_Feel(ref this._host, this.sSDBLocation);
             sf.tbContainer.Text = this._host.get_Variable("StealingContainer");
             sf.cbMark.Checked = this._host.get_Variable("StealingMark") == String.Empty || this._host.get_Variable("StealingMark") == "No" ? false : true;
             sf.cbPerceiveHealth.Checked = this._host.get_Variable("StealingPerceiveHealth") == String.Empty || this._host.get_Variable("StealingPerceiveHealth") == "No" ? false : true;
